@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Experience from '../components/Experience.astro';
+import Projects from '../components/Projects.astro';
+import Skills from '../components/Skills.astro';
+import Hire from '../components/Hire.astro';
+import Education from '../components/Education.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+import { profile } from '../data/profile';
+import '../styles/home.css';
+---
+
+<Base
+  title={`${profile.name}, ${profile.title}`}
+  description="Software engineer building reliable .NET and Angular systems for regulated, data-heavy domains. Available for contract work."
+>
+  <Header />
+  <main id="main" tabindex="-1">
+    <Hero />
+    <Experience />
+    <Projects />
+    <Skills />
+    <Hire />
+    <Education />
+    <Contact />
+  </main>
+  <Footer />
+</Base>

@@ -1,0 +1,44 @@
+/* Design tokens. The default theme is "sand". Switch with <html data-theme="light|dark">. */
+:root {
+  --bg: #ece9d8;
+  --fg: #1f2f35;
+  --muted: #55646a;
+  --soft: #3a4a50;
+  --soft2: #28383e;
+  --line: #a9b3b0;
+  --ghost: #dcd9c6;
+  --rule: #7d8c8c;
+  --tagline: #b8bfba;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, Menlo, Consolas, monospace;
+  --font-serif: 'Instrument Serif', serif;
+
+  --max: 1200px;
+  --gutter: clamp(20px, 5vw, 32px);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+:root[data-theme='light'] {
+  --bg: #fbfbfa;
+  --fg: #111111;
+  --muted: #6b6b6b;
+  --soft: #4d4d4d;
+  --soft2: #2b2b2b;
+  --line: #dedede;
+  --ghost: #e7e7e5;
+  --rule: #a3a3a3;
+  --tagline: #d0d0d0;
+}
+
+:root[data-theme='dark'] {
+  --bg: #0b0b0b;
+  --fg: #ededed;
+  --muted: #9a9a9a;
+  --soft: #b4b4b4;
+  --soft2: #d6d6d6;
+  --line: #262626;
+  --ghost: #242424;
+  --rule: #6e6e6e;
+  --tagline: #2c2c2c;
+}

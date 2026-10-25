@@ -1,0 +1,27 @@
+{
+  "name": "russel-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "deploy": "astro build && wrangler deploy",
+    "format": "prettier --write \"src/**/*.{astro,ts,css}\""
+  },
+  "dependencies": {
+    "@fontsource/instrument-serif": "^5.1.0",
+    "@fontsource/inter": "^5.1.0",
+    "@fontsource/space-mono": "^5.1.0",
+    "astro": "^5.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.2",
+    "typescript": "^5.6.0",
+    "wrangler": "^4.0.0"
+  }
+}

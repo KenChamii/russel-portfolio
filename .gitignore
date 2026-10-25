@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+.wrangler
+.env
+.DS_Store
+.dev.vars
+*.log
+Thumbs.db

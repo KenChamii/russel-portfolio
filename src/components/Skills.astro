@@ -1,0 +1,18 @@
+---
+import { skillGroups } from '../data/skills';
+---
+
+<section id="skills" class="container section-skills">
+  <div class="rv sec-head">
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">Skills</h2>
+  </div>
+  <div class="rv skills-grid">
+    {skillGroups.map((g) => (
+      <div class="skill">
+        <h3>{g.heading}</h3>
+        <p>{g.items}</p>
+      </div>
+    ))}
+  </div>
+</section>

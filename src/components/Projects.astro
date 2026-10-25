@@ -1,0 +1,110 @@
+---
+import { projects } from '../data/projects';
+---
+
+<section id="projects" class="container section-projects">
+  <div class="rv sec-head">
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">Sample projects</h2>
+    <p class="sec-note">
+      Personal full-stack projects built end to end, each with a short walkthrough. Employer and client work stays
+      private, so it lives in the experience section.
+    </p>
+  </div>
+
+  {projects.map((p, i) => (
+    <article class="spec rv">
+      <div class="lab">
+        <div class="mono">
+          {String(i + 1).padStart(2, '0')} / {p.name}
+        </div>
+        <div class="mono muted">{p.kind}</div>
+        <div class="mono stack">
+          {p.stack.map((s) => (
+            <Fragment>
+              {s}
+              <br />
+            </Fragment>
+          ))}
+        </div>
+        <div class="mono links">
+          {p.links.map((l) => (
+            <a class="lk" href={l.href} target="_blank" rel="noopener">
+              {l.label} &#8599;
+            </a>
+          ))}
+        </div>
+      </div>
+      <div class="main">
+        <h3 class="sname">{p.name}</h3>
+        <p class="desc">{p.description}</p>
+        <figure class="shot">
+          <div class="shotbox" style={`aspect-ratio:${p.video.width}/${p.video.height}`}>
+            <div class="shotmedia" style={`background-image:url(${p.video.poster})`}>
+            <video
+              src={p.video.src}
+              poster={p.video.poster}
+                            muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label={p.video.label}
+            ></video>
+            </div>
+          </div>
+          <figcaption class="shotbar">
+            <span class="mono muted status" aria-live="polite">
+              <i class="pulse" aria-hidden="true"></i>
+              <span data-status>Walkthrough</span>
+            </span>
+            <button class="pp mono" type="button" data-video-toggle aria-label="Pause the demo video">
+              Pause
+            </button>
+          </figcaption>
+        </figure>
+      </div>
+    </article>
+  ))}
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-video-toggle]').forEach((btn) => {
+    const video = btn.closest('figure')?.querySelector('video');
+    if (!video) return;
+
+    const status = btn.closest('figure')?.querySelector('[data-status]');
+    const figure = btn.closest('figure');
+    const sync = () => {
+      figure?.classList.toggle('is-playing', !video.paused);
+      if (status) status.textContent = video.paused ? 'Paused' : 'Playing';
+      btn.textContent = video.paused ? 'Play' : 'Pause';
+      btn.setAttribute('aria-label', `${video.paused ? 'Play' : 'Pause'} the demo video`);
+    };
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let userPaused = reduce;
+    if (reduce) video.pause();
+
+    // Only play while on screen, so off-screen clips do not burn battery or data.
+    new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !userPaused) video.play().catch(sync);
+        else video.pause();
+      },
+      { threshold: 0.25 },
+    ).observe(video);
+    video.pause();
+    video.addEventListener('play', sync);
+    // Fade the video in once a frame is actually showing, so the poster never jumps.
+    const reveal = () => video.classList.add('ready');
+    if (video.readyState >= 3 && !video.paused) reveal();
+    video.addEventListener('playing', reveal);
+    video.addEventListener('pause', sync);
+    btn.addEventListener('click', () => {
+      userPaused = !video.paused;
+      if (video.paused) video.play().catch(sync);
+      else video.pause();
+    });
+    sync();
+  });
+</script>

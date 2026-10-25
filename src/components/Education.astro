@@ -1,0 +1,23 @@
+---
+import { education } from '../data/education';
+import { profile } from '../data/profile';
+---
+
+<section id="education" class="container section-education">
+  <div class="rv sec-head">
+    <span class="sec-num">05</span>
+    <h2 class="sec-title">Education</h2>
+  </div>
+  {education.map((e) => (
+    <div class="rv edu">
+      <div class="mono edu-years">{e.years}</div>
+      <div class="edu-body">
+        <h3>{e.school}</h3>
+        <p>{e.degree}</p>
+      </div>
+    </div>
+  ))}
+  <blockquote class="rv closing">
+    <p>{profile.closing}</p>
+  </blockquote>
+</section>

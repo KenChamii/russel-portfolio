@@ -1,0 +1,64 @@
+---
+import { experience } from '../data/experience';
+---
+
+<section id="experience" class="container section-experience">
+  <div class="rv sec-head">
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">Experience</h2>
+    <p class="sec-note">Select a role to read the details.</p>
+  </div>
+
+  <div data-accordion>
+    {experience.map((role, i) => (
+      <div class={`xrow${i === 0 ? ' open' : ''}`}>
+        <button class="xhead" type="button" aria-expanded={i === 0} aria-controls={`role-${i}`}>
+          <span class="xtitle">
+            <span class="xrole">{role.title}</span>
+            <span class="xorg">{role.org}</span>
+          </span>
+          <span class="xdate">{role.dates}</span>
+          <span class="xtoggle">
+            <span data-label>{i === 0 ? 'Close' : 'Open'}</span>
+            <span class="xicon" aria-hidden="true">
+              <i></i>
+              <i></i>
+            </span>
+          </span>
+        </button>
+        <div class="xbody" id={`role-${i}`}>
+          <div class="xclip">
+            <div class="xinner">
+              <ul>
+                {role.bullets.map((b) => (
+                  <li class={b.emphasis ? 'xnote' : undefined}>
+                    {b.lead && <strong>{b.lead} </strong>}
+                    {b.text}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const rows = Array.from(document.querySelectorAll<HTMLElement>('[data-accordion] .xrow'));
+
+  function setOpen(row: HTMLElement, open: boolean) {
+    row.classList.toggle('open', open);
+    row.querySelector('.xhead')?.setAttribute('aria-expanded', String(open));
+    const label = row.querySelector('[data-label]');
+    if (label) label.textContent = open ? 'Close' : 'Open';
+  }
+
+  rows.forEach((row) => {
+    row.querySelector('.xhead')?.addEventListener('click', () => {
+      const willOpen = !row.classList.contains('open');
+      rows.forEach((r) => setOpen(r, r === row && willOpen));
+    });
+  });
+</script>

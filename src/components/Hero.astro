@@ -1,0 +1,57 @@
+---
+import { profile } from '../data/profile';
+---
+
+<section id="top" class="container hero">
+  <div class="hero-grid">
+    <div class="hero-main">
+      <div class="hide-sm in hero-welcome" style="--d:.1s">
+        <span class="vlabel">Open to work</span>
+        <i></i>
+      </div>
+      <div class="hero-body">
+        <p class="in eyebrow" style="--d:.2s">
+          {profile.title}, Philippines
+        </p>
+        <h1 class="in" style="--d:.35s">
+          {profile.headline}
+        </h1>
+        <p class="in lede" style="--d:.5s">
+          {profile.intro}
+        </p>
+        <div class="in actions" style="--d:.65s">
+          <a class="btn" href="#experience">
+            <span class="ln"></span>View experience
+          </a>
+          <a class="btn" href="#projects">
+            <span class="ln"></span>Sample projects
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-side">
+      <div class="frame in" style="--d:.4s">
+        <picture>
+          <source srcset={profile.photo.webp} type="image/webp" />
+          <img
+            class="photo"
+            src={profile.photo.src}
+            alt={profile.photo.alt}
+            width="800"
+            height="1000"
+            fetchpriority="high"
+          />
+        </picture>
+      </div>
+      <div class="hide-sm in where" style="--d:.8s">
+        <div class="where-text">
+          Malvar, Batangas
+          <br />
+          Philippines
+        </div>
+        <span class="vlabel">LOCATION</span>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import AboutViz from '../components/about/AboutViz.astro';
+import { profile } from '../data/profile';
+import { aboutItems, aboutIntro } from '../data/about';
+import '../styles/about.css';
+---
+
+<Base title={`About me | ${profile.name}`} description="A few things about me outside of work.">
+  <div class="about-page">
+    <header class="about-header">
+      <a class="about-logo" href="/" aria-label="Back to portfolio">
+        {profile.initials}
+      </a>
+      <a class="xlink" href="/" aria-label="Close and return to the portfolio">
+        <svg
+          width="30"
+          height="30"
+          viewBox="0 0 30 30"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.1"
+          aria-hidden="true"
+        >
+          <path d="M3 3l24 24M27 3L3 27"></path>
+        </svg>
+      </a>
+    </header>
+
+    <main id="main" tabindex="-1" class="about-main">
+      <div class="in about-intro" style="--d:.15s">
+        <p class="mono">About me</p>
+        <p>{aboutIntro}</p>
+      </div>
+
+      <div class="dial in" style="--d:.25s" data-dial>
+        <div class="ctr">
+          <div class="ring" aria-hidden="true"></div>
+          {aboutItems.map((item, i) => (
+            <button class="d" type="button" aria-label={`Show ${String(i + 1).padStart(2, '0')}, ${item.title}`}>
+              <span class="dd">
+                <span class="dot" aria-hidden="true"></span>
+                <span class="num" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span class="txt">
+                  <span class="ttl">{item.title}</span>
+                  <span class="dsc">{item.description}</span>
+                </span>
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <AboutViz items={aboutItems} />
+
+        <div class="dial-controls">
+          <span class="mono muted" data-count></span>
+          <button class="pp" type="button" data-prev>
+            Prev
+          </button>
+          <button class="pp" type="button" data-next>
+            Next
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="about-footer">
+      <span class="mono muted">
+        © {new Date().getFullYear()} {profile.name}
+      </span>
+      <a class="lk mono" href="/">
+        Back to portfolio
+      </a>
+    </footer>
+  </div>
+</Base>
+
+<script>
+  import { initDial } from '../scripts/dial';
+
+  const root = document.querySelector<HTMLElement>('[data-dial]');
+  if (root) initDial(root);
+</script>

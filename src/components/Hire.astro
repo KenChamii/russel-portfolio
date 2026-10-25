@@ -1,0 +1,129 @@
+---
+import { services, servicesIntro } from '../data/services';
+---
+
+<section id="hire" class="container section-hire">
+  <div class="rv sec-head">
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">Hire me</h2>
+    <p class="sec-note">{servicesIntro}</p>
+  </div>
+
+  <div class="rv hire auto" data-slideshow data-interval="6000">
+    <div class="hcols" role="tablist" aria-label="Services">
+      {services.map((s, i) => (
+        <button
+          class={`hc${i === 0 ? ' sel' : ''}`}
+          type="button"
+          role="tab"
+          aria-selected={i === 0}
+          aria-controls={`service-${i}`}
+          id={`tab-${i}`}
+          tabindex={i === 0 ? 0 : -1}
+        >
+          <span class="hnw">
+            <span class="hn">{String(i + 1).padStart(2, '0')}</span>
+          </span>
+          <span class="hbar">
+            <i></i>
+          </span>
+          <span class="ht">{s.title}</span>
+        </button>
+      ))}
+    </div>
+
+    <div class="hstack">
+      {services.map((s, i) => (
+        <div class={`hp${i === 0 ? ' on' : ''}`} id={`service-${i}`} role="tabpanel" aria-labelledby={`tab-${i}`} aria-hidden={i === 0 ? 'false' : 'true'}>
+          <h3 class="hh">{s.title}</h3>
+          <div class="hb">
+            <p class="hd">{s.description}</p>
+            <div class="mono hg">
+              {s.tags.map((t) => (
+                <Fragment>
+                  {t}
+                  <br />
+                </Fragment>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="hire-cta">
+      <span class="mono muted" data-count>
+        01 / {String(services.length).padStart(2, '0')}
+      </span>
+      <button class="pp mono" type="button" data-prev>
+        Prev
+      </button>
+      <button class="pp mono" type="button" data-next>
+        Next
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-slideshow]');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLElement>('.hc'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('.hp'));
+    const count = root.querySelector<HTMLElement>('[data-count]');
+    const total = tabs.length;
+    const interval = Number(root.dataset.interval) || 6000;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let timer: number | undefined;
+
+    const show = (i: number) => {
+      current = (i + total) % total;
+      tabs.forEach((t, k) => {
+        t.classList.toggle('sel', k === current);
+        t.setAttribute('aria-selected', String(k === current));
+        t.tabIndex = k === current ? 0 : -1;
+      });
+      panels.forEach((p, k) => {
+        p.classList.toggle('on', k === current);
+        p.setAttribute('aria-hidden', String(k !== current));
+      });
+      if (count) count.textContent = `${String(current + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+    };
+
+    // Autoplay runs until the visitor interacts, then stays under their control.
+    const stopAuto = () => {
+      window.clearInterval(timer);
+      root.classList.remove('auto');
+    };
+
+    if (reduceMotion) {
+      root.classList.remove('auto');
+    } else {
+      timer = window.setInterval(() => show(current + 1), interval);
+    }
+
+    tabs.forEach((t, i) =>
+      t.addEventListener('click', () => {
+        stopAuto();
+        show(i);
+      }),
+    );
+    root.querySelector('.hcols')?.addEventListener('keydown', (e) => {
+      const key = (e as KeyboardEvent).key;
+      if (key !== 'ArrowRight' && key !== 'ArrowLeft') return;
+      e.preventDefault();
+      stopAuto();
+      show(current + (key === 'ArrowRight' ? 1 : -1));
+      tabs[current].focus();
+    });
+    root.querySelector('[data-prev]')?.addEventListener('click', () => {
+      stopAuto();
+      show(current - 1);
+    });
+    root.querySelector('[data-next]')?.addEventListener('click', () => {
+      stopAuto();
+      show(current + 1);
+    });
+  }
+</script>
